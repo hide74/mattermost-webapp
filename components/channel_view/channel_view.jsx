@@ -39,6 +39,8 @@ export default class ChannelView extends React.PureComponent {
          * Set to show the tutorial
          */
         showTutorial: PropTypes.bool.isRequired,
+
+        isArchived: PropTypes.bool.isRequired,
     };
 
     constructor(props) {
@@ -127,6 +129,7 @@ export default class ChannelView extends React.PureComponent {
                     id='post-create'
                 >
                     <CreatePost
+                        readOnlyChannel={this.props.isArchived}
                         getChannelView={this.getChannelView}
                     />
                 </div>

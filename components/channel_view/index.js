@@ -34,6 +34,7 @@ function mapStateToProps(state) {
         channelId,
         deactivatedChannel: getDeactivatedChannel(state, channelId),
         showTutorial: enableTutorial && tutorialStep <= TutorialSteps.INTRO_SCREENS,
+        isArchived: true,
     };
 }
 
