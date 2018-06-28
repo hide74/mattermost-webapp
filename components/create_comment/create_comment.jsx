@@ -347,7 +347,6 @@ export default class CreateComment extends React.PureComponent {
 
     handleKeyDown = (e) => {
         if (this.props.ctrlSend && Utils.isKeyPressed(e, Constants.KeyCodes.ENTER) && (e.ctrlKey || e.metaKey)) {
-            console.count('handleKeyDown');
             this.commentMsgKeyPress(e);
             return;
         }
@@ -636,8 +635,7 @@ export default class CreateComment extends React.PureComponent {
                         <div className='post-body__cell'>
                             <Textbox
                                 onChange={this.handleChange}
-
-                                // onKeyPress={this.commentMsgKeyPress}
+                                onKeyPress={this.commentMsgKeyPress}
                                 onKeyDown={this.handleKeyDown}
                                 handlePostError={this.handlePostError}
                                 value={readOnlyChannel ? '' : draft.message}
