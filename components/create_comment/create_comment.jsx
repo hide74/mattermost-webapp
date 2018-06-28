@@ -316,7 +316,6 @@ export default class CreateComment extends React.PureComponent {
     }
 
     commentMsgKeyPress = (e) => {
-        console.count('commentMsgKeyPress');
         if (!UserAgent.isMobile() && ((this.props.ctrlSend && (e.ctrlKey || e.metaKey)) || !this.props.ctrlSend)) {
             if (Utils.isKeyPressed(e, KeyCodes.ENTER) && !e.shiftKey && !e.altKey) {
                 e.preventDefault();

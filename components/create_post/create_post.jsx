@@ -626,7 +626,6 @@ export default class CreatePost extends React.Component {
     }
 
     handleKeyDown = (e) => {
-        console.count('handleKeyDown');
         const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
         const messageIsEmpty = this.state.message.length === 0;
         const draftMessageIsEmpty = this.props.draft.message.length === 0;
