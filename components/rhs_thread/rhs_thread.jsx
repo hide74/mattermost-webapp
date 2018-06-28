@@ -59,6 +59,7 @@ export default class RhsThread extends React.Component {
         previewCollapsed: PropTypes.string.isRequired,
         previewEnabled: PropTypes.bool.isRequired,
         postsEmbedVisibleObj: PropTypes.object,
+        isArchivedChannel: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
             removePost: PropTypes.func.isRequired,
         }).isRequired,
@@ -382,6 +383,7 @@ export default class RhsThread extends React.Component {
             createComment = (
                 <div className='post-create__container'>
                     <CreateComment
+                        readOnlyChannel={this.props.isArchivedChannel}
                         channelId={selected.channel_id}
                         rootId={selected.id}
                         rootDeleted={selected.state === Posts.POST_DELETED}
