@@ -15,6 +15,7 @@ export default class PermalinkView extends React.PureComponent {
     static propTypes = {
         channelId: PropTypes.string,
         channelName: PropTypes.string,
+        channelDeleteAt: PropTypes.number.isRequired,
 
         /*
          * Object from react-router
@@ -63,6 +64,7 @@ export default class PermalinkView extends React.PureComponent {
         const {
             channelId,
             channelName,
+            channelDeleteAt,
             match,
             teamName,
         } = this.props;
@@ -92,6 +94,12 @@ export default class PermalinkView extends React.PureComponent {
                     <Link
                         to={'/' + teamName + '/channels/' + channelName}
                     >
+                        {channelDeleteAt !== 0 &&
+                            <FormattedMessage
+                                id='center_panel.permalink.archivedChannel'
+                                defaultMessage='You are viewing an archived channel. '
+                            />
+                        }
                         <FormattedMessage
                             id='center_panel.recent'
                             defaultMessage='Click here to jump to recent messages. '

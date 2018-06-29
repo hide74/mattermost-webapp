@@ -2,11 +2,11 @@
 // See LICENSE.txt for license information.
 
 import $ from 'jquery';
-import {FormattedMessage} from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Scrollbars from 'react-custom-scrollbars';
-import {Posts} from 'mattermost-redux/constants';
+import { Posts } from 'mattermost-redux/constants';
 
 import PreferenceStore from 'stores/preference_store.jsx';
 import UserStore from 'stores/user_store.jsx';
@@ -21,6 +21,7 @@ import FloatingTimestamp from 'components/post_view/floating_timestamp.jsx';
 import RhsComment from 'components/rhs_comment';
 import RhsHeaderPost from 'components/rhs_header_post';
 import RootPost from 'components/rhs_root_post';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 const Preferences = Constants.Preferences;
 
@@ -59,7 +60,6 @@ export default class RhsThread extends React.Component {
         previewCollapsed: PropTypes.string.isRequired,
         previewEnabled: PropTypes.bool.isRequired,
         postsEmbedVisibleObj: PropTypes.object,
-        isArchivedChannel: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
             removePost: PropTypes.func.isRequired,
         }).isRequired,
@@ -203,11 +203,11 @@ export default class RhsThread extends React.Component {
     }
 
     onStatusChange = () => {
-        this.setState({statuses: Object.assign({}, UserStore.getStatuses())});
+        this.setState({ statuses: Object.assign({}, UserStore.getStatuses()) });
     }
 
     onBusy = (isBusy) => {
-        this.setState({isBusy});
+        this.setState({ isBusy });
     }
 
     filterPosts = (posts, selected, openTime) => {
@@ -229,7 +229,7 @@ export default class RhsThread extends React.Component {
 
     onUserChange = () => {
         const profiles = JSON.parse(JSON.stringify(UserStore.getProfiles()));
-        this.setState({profiles});
+        this.setState({ profiles });
     }
 
     scrollToBottom = () => {
@@ -291,7 +291,7 @@ export default class RhsThread extends React.Component {
     render() {
         if (this.props.posts == null || this.props.selected == null) {
             return (
-                <div/>
+                <div />
             );
         }
 
@@ -379,19 +379,31 @@ export default class RhsThread extends React.Component {
 
         let createComment;
         const isFakeDeletedPost = selected.type === Constants.PostTypes.FAKE_PARENT_DELETED;
+        // const channelIsArchived = this.props.channel.delete_at !== 0;
+        const channelIsArchived = true;
         if (!isFakeDeletedPost) {
-            createComment = (
-                <div className='post-create__container'>
-                    <CreateComment
-                        readOnlyChannel={this.props.isArchivedChannel}
-                        channelId={selected.channel_id}
-                        rootId={selected.id}
-                        rootDeleted={selected.state === Posts.POST_DELETED}
-                        latestPostId={postsLength > 0 ? postsArray[postsLength - 1].id : selected.id}
-                        getSidebarBody={this.getSidebarBody}
-                    />
-                </div>
-            );
+            if (channelIsArchived) {
+                createComment = (
+                    <div className='channel-archived-warning'>
+                        <FormattedMarkdownMessage
+                            id='archivedChannelMessage'
+                            defaultMessage='You are viewing an **archived channel**. New messages cannot be posted.'
+                        />
+                    </div>
+                );
+            } else {
+                createComment = (
+                    <div className='post-create__container'>
+                        <CreateComment
+                            channelId={selected.channel_id}
+                            rootId={selected.id}
+                            rootDeleted={selected.state === Posts.POST_DELETED}
+                            latestPostId={postsLength > 0 ? postsArray[postsLength - 1].id : selected.id}
+                            getSidebarBody={this.getSidebarBody}
+                        />
+                    </div>
+                );
+            }
         }
 
         if (this.props.channel.type === Constants.DM_CHANNEL) {
@@ -435,7 +447,7 @@ export default class RhsThread extends React.Component {
                     onScroll={this.handleScroll}
                 >
                     <div className='post-right__scroll'>
-                        {!isFakeDeletedPost && <DateSeparator date={rootPostDay}/>}
+                        {!isFakeDeletedPost && <DateSeparator date={rootPostDay} />}
                         <RootPost
                             ref={selected.id}
                             post={selected}
@@ -451,7 +463,7 @@ export default class RhsThread extends React.Component {
                             isBusy={this.state.isBusy}
                             isEmbedVisible={this.props.postsEmbedVisibleObj[selected.id]}
                         />
-                        {isFakeDeletedPost && <DateSeparator date={rootPostDay}/>}
+                        {isFakeDeletedPost && <DateSeparator date={rootPostDay} />}
                         <div
                             ref='rhspostlist'
                             className='post-right-comments-container'

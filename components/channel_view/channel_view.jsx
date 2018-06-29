@@ -14,6 +14,7 @@ import FileUploadOverlay from 'components/file_upload_overlay.jsx';
 import PostView from 'components/post_view';
 import TutorialView from 'components/tutorial';
 import {clearMarks, mark, measure, trackEvent} from 'actions/diagnostics_actions.jsx';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 export default class ChannelView extends React.PureComponent {
     static propTypes = {
@@ -40,7 +41,10 @@ export default class ChannelView extends React.PureComponent {
          */
         showTutorial: PropTypes.bool.isRequired,
 
-        isArchived: PropTypes.bool.isRequired,
+        /**
+         * Whether the channel is deleted
+         */
+        isDeleted: PropTypes.bool.isRequired,
     };
 
     constructor(props) {
@@ -79,8 +83,12 @@ export default class ChannelView extends React.PureComponent {
         return this.refs.channelView;
     }
 
+    onClickCloseChannel = () => {
+        console.count('ChannelView#onClickCloseChannel'); // TODO: Implement
+    }
+
     componentDidUpdate(prevProps) {
-        if (prevProps.channelId !== this.props.channelId) {
+        if (prevProps.channelId !== this.props.channelId || prevProps.isDeleted !== this.props.isDeleted) {
             mark('ChannelView#componentDidUpdate');
 
             const [dur1] = measure('SidebarChannelLink#click', 'ChannelView#componentDidUpdate');
@@ -102,6 +110,7 @@ export default class ChannelView extends React.PureComponent {
     }
 
     render() {
+        const channelIsArchived = this.props.isDeleted;
         if (this.props.showTutorial) {
             return (
                 <TutorialView
@@ -128,10 +137,28 @@ export default class ChannelView extends React.PureComponent {
                     className='post-create__container'
                     id='post-create'
                 >
-                    <CreatePost
-                        readOnlyChannel={this.props.isArchived}
-                        getChannelView={this.getChannelView}
-                    />
+                    {!channelIsArchived &&
+                        <CreatePost
+                            getChannelView={this.getChannelView}
+                        />
+                    }
+                    {channelIsArchived &&
+                        <div className='channel-archived__message'>
+                            <FormattedMarkdownMessage
+                                id='archivedChannelMessage'
+                                defaultMessage='You are viewing an **archived channel**. New messages cannot be posted.'
+                            />
+                            <button
+                                className='btn btn-primary channel-archived__close-btn'
+                                onClick={this.onClickCloseChannel}
+                            >
+                                <FormattedMessage
+                                    id='center_paen.archived.closeChannel'
+                                    defaultMessage='Close Channel'
+                                />
+                            </button>
+                        </div>
+                    }
                 </div>
             );
         }

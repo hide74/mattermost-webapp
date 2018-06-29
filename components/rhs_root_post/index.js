@@ -20,6 +20,7 @@ function mapStateToProps(state, ownProps) {
         isReadOnly: isChannelReadOnlyById(state, ownProps.post.channel_id),
         teamId,
         pluginPostTypes: state.plugins.postTypes,
+        isArchived: true, // TODO: Get this value from Redux.
     };
 }
 

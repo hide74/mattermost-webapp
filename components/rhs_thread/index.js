@@ -37,7 +37,6 @@ function makeMapStateToProps() {
             previewCollapsed,
             postsEmbedVisibleObj,
             previewEnabled: getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.LINK_PREVIEW_DISPLAY, Preferences.LINK_PREVIEW_DISPLAY_DEFAULT),
-            isArchivedChannel: true,
         };
     };
 }

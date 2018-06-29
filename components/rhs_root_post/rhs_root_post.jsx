@@ -46,6 +46,7 @@ export default class RhsRootPost extends React.Component {
         enablePostUsernameOverride: PropTypes.bool.isRequired,
         isReadOnly: PropTypes.bool.isRequired,
         pluginPostTypes: PropTypes.object,
+        isArchived: PropTypes.bool.isRequired,
     };
 
     static defaultProps = {
@@ -192,7 +193,7 @@ export default class RhsRootPost extends React.Component {
     };
 
     render() {
-        const {post, user, isReadOnly, teamId} = this.props;
+        const {post, user, isReadOnly, teamId, isArchived} = this.props;
         var channel = ChannelStore.get(post.channel_id);
 
         const isEphemeral = Utils.isPostEphemeral(post);
@@ -325,6 +326,7 @@ export default class RhsRootPost extends React.Component {
                 handleDropdownOpened={this.handleDropdownOpened}
                 commentCount={this.props.commentCount}
                 isReadOnly={isReadOnly}
+                isArchived={isArchived}
             />
         );
 

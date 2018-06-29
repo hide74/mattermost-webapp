@@ -46,7 +46,7 @@ function mapStateToProps(state, ownProps) {
         channelMembersCount,
         ctrlSend: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
         createPostErrorId: err.server_error_id,
-        readOnlyChannel: ownProps.readOnlyChannel || (!isCurrentUserSystemAdmin(state) && config.ExperimentalTownSquareIsReadOnly === 'true' && channel.name === Constants.DEFAULT_CHANNEL),
+        readOnlyChannel: !isCurrentUserSystemAdmin(state) && config.ExperimentalTownSquareIsReadOnly === 'true' && channel.name === Constants.DEFAULT_CHANNEL,
         enableConfirmNotificationsToChannel,
         enableEmojiPicker,
         maxPostSize: parseInt(config.MaxPostSize, 10) || Constants.DEFAULT_CHARACTER_LIMIT,

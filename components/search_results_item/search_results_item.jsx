@@ -169,6 +169,9 @@ export default class SearchResultsItem extends React.PureComponent {
         const user = this.props.user || {};
         const post = this.props.post;
 
+        // const channelIsArchived = channel.delete_at !== 0;
+        const channelIsArchived = true;
+
         if (channel) {
             channelName = channel.display_name;
             if (channel.type === Constants.DM_CHANNEL) {
@@ -187,9 +190,9 @@ export default class SearchResultsItem extends React.PureComponent {
         let overrideUsername;
         let disableProfilePopover = false;
         if (post.props &&
-                post.props.from_webhook &&
-                post.props.override_username &&
-                this.props.enablePostUsernameOverride) {
+            post.props.from_webhook &&
+            post.props.override_username &&
+            this.props.enablePostUsernameOverride) {
             overrideUsername = post.props.override_username;
             disableProfilePopover = true;
         }
@@ -264,6 +267,7 @@ export default class SearchResultsItem extends React.PureComponent {
                         isFlagged={this.props.isFlagged}
                         handleDropdownOpened={this.handleDropdownOpened}
                         commentCount={this.props.commentCountForPost}
+                        isReadOnly={channelIsArchived || null}
                     />
                     <CommentIcon
                         idPrefix={'searchCommentIcon'}
@@ -315,7 +319,17 @@ export default class SearchResultsItem extends React.PureComponent {
             <div className='search-item__container'>
                 <DateSeparator date={currentPostDay}/>
                 <div className={this.getClassName()}>
-                    <div className='search-channel__name'>{channelName}</div>
+                    <div className='search-channel__name'>
+                        {channelName}
+                        {channelIsArchived &&
+                            <span className='search-channel__archived'>
+                                <FormattedMessage
+                                    id='search_item.channelArchived'
+                                    defaultMessage='Archived'
+                                />
+                            </span>
+                        }
+                    </div>
                     <div className='post__content'>
                         {profilePicContainer}
                         <div>
