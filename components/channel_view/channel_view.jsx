@@ -4,7 +4,7 @@
 import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
 import * as UserAgent from 'utils/user_agent.jsx';
 import deferComponentRender from 'components/deferComponentRender';
@@ -13,7 +13,7 @@ import CreatePost from 'components/create_post';
 import FileUploadOverlay from 'components/file_upload_overlay.jsx';
 import PostView from 'components/post_view';
 import TutorialView from 'components/tutorial';
-import {clearMarks, mark, measure, trackEvent} from 'actions/diagnostics_actions.jsx';
+import { clearMarks, mark, measure, trackEvent } from 'actions/diagnostics_actions.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 export default class ChannelView extends React.PureComponent {
@@ -41,10 +41,14 @@ export default class ChannelView extends React.PureComponent {
          */
         showTutorial: PropTypes.bool.isRequired,
 
+<<<<<<< HEAD
         /**
          * Whether the channel is deleted
          */
         isDeleted: PropTypes.bool.isRequired,
+=======
+        isArchived: PropTypes.bool.isRequired,
+>>>>>>> 81cd06e7d8bcb3a1366e824477f304ef9b399465
     };
 
     constructor(props) {
@@ -56,7 +60,7 @@ export default class ChannelView extends React.PureComponent {
     createDeferredPostView = () => {
         this.deferredPostView = deferComponentRender(
             PostView,
-            <div id='post-list'/>
+            <div id='post-list' />
         );
     }
 
@@ -101,10 +105,10 @@ export default class ChannelView extends React.PureComponent {
             ]);
 
             if (dur1 !== -1) {
-                trackEvent('performance', 'channel_switch', {duration: Math.round(dur1)});
+                trackEvent('performance', 'channel_switch', { duration: Math.round(dur1) });
             }
             if (dur2 !== -1) {
-                trackEvent('performance', 'team_switch', {duration: Math.round(dur2)});
+                trackEvent('performance', 'team_switch', { duration: Math.round(dur2) });
             }
         }
     }
@@ -171,7 +175,7 @@ export default class ChannelView extends React.PureComponent {
                 id='app-content'
                 className='app__content'
             >
-                <FileUploadOverlay overlayType='center'/>
+                <FileUploadOverlay overlayType='center' />
                 <ChannelHeader
                     channelId={this.props.channelId}
                 />
